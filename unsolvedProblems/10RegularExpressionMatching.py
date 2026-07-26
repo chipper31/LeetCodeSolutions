@@ -19,25 +19,39 @@ class Solution:
 
         while bool(sStack) and bool(pStack):
             # 1 char look ahead to find *
-            if (not star) or (star and (starChar != sStack[-1] and starChar != ".")):
-                if len(pStack) >= 2:
-                    if pStack[-2] == "*":
-                        star = True
-                        starChar = pStack[-1]
-                        pStack.pop()
-                        pStack.pop()
-                        if not bool(pStack):
-                            continue
-                    else:
-                        star = False
-                else:
+            if len(pStack) >= 2:
+                if pStack[-2] == "*":   # look ahead is *
+                    star = True
+                    if sStack[-1] == pStack[-1]:
+                        if starChar != ".":
+                            starChar = pStack[-1]
+                        else:
+                            starChar = "."
+                    pStack.pop()
+                    pStack.pop()
+                    if not bool(pStack):
+                        continue
+                # look ahead is not * and starChar is not . and
+                # starChar does not match top of sStack
+                elif (starChar != ".") and (starChar != sStack[-1]):
                     star = False
+                    starChar = ""
+            # pStack is less than 2 long and starChar is not . and
+            # starChar does not match top of sStack
+            elif (starChar != ".") and (starChar != sStack[-1]):
+                star = False
+                starChar = ""
+
             print("star " + str(star))
+            print("star char " + str(starChar))
+
             if star:    # there is a star
                 if starChar == "." or starChar == sStack[-1]:
                     if pStack[-1] == "." or pStack[-1] == sStack[-1]:
                         sStack.pop()
-                        pStack.pop()
+                        if len(pStack) >= 2:
+                            if pStack[-2] != "*":
+                                pStack.pop()
                     else:
                         sStack.pop()
             #no star and top of stacks match
@@ -66,4 +80,4 @@ class Solution:
 
         return True
 
-print(Solution.isMatch(Solution, "aaqwbb", ".*aa.*bb"))
+print(Solution.isMatch(Solution, "abcda", ".*a"))
