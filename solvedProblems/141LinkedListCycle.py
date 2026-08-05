@@ -11,16 +11,17 @@ class Solution:
         if not head:
             return False
 
-        nodeDict = {
-            head: head.val
-        }
-        newNode = head.next
+        slowNode = head
+        fastNode = head.next
 
-        while newNode:
-            if newNode in  nodeDict:
+        while fastNode:
+            if slowNode ==  fastNode:
                 return True
-            nodeDict[newNode] = newNode.val
-            newNode = newNode.next
+            fastNode = fastNode.next
+            slowNode = slowNode.next
+            if not fastNode:
+                return False
+            fastNode = fastNode.next      
 
         return False
 
