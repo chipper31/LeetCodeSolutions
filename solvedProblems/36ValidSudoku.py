@@ -1,46 +1,39 @@
 class Solution:
     def isValidSudoku(self, board: list[list[str]]) -> bool:
 
-        boardDict = {}
+        boardDict = set()
 
+        #row check
         for i in range(0,9):
             for j in range(0,9):
-                boardDict[(i,j)] = board[i][j]
-
-        # horizontal line check
-        for i in range(0,9):
-            for j in range(0,9):
-                currCell = boardDict[(i,j)]
-                if currCell == ".":
+                if board[i][j] == '.':
                     continue
-                for k in range(j + 1,9):
-                    if currCell == boardDict[(i,k)]:
-                        return False
+                if board[i][j] in boardDict:
+                    return False
+                boardDict.add(board[i][j])
+            boardDict.clear()
 
-        # vertical line check
+        #column check
         for i in range(0,9):
             for j in range(0,9):
-                currCell = boardDict[(j,i)]
-                if currCell == ".":
+                if board[j][i] == '.':
                     continue
-                for k in range(j + 1,9):
-                    if currCell == boardDict[(k,i)]:
-                        return False
+                if board[j][i] in boardDict:
+                    return False
+                boardDict.add(board[j][i])
+            boardDict.clear()
 
-        # 3x3 box check        
-        for i in range(0,9,3):  # cols of 3x3 boxes
-            for j in range(0,9,3):  # rows of 3x3 boxes
-                cellList = []
-                for k in range(i,i+3):  
-                    for a in range(j,j+3):
-                        cellList.append(boardDict[(k,a)])
-                for k in range(0,9):
-                    currCell = cellList[k]
-                    if currCell == ".":
-                        continue
-                    for a in range(k+1,9):
-                        if currCell == cellList[a]:
+        #3x3 box check
+        for i in range(0,9,3):
+            for j in range(0,9,3):
+                for a in range(i,i+3):
+                    for b in range(j,j+3):
+                        if board[a][b] == '.':
+                            continue
+                        if board[a][b] in boardDict:
                             return False
+                        boardDict.add(board[a][b])
+                boardDict.clear()
 
         return True
 
