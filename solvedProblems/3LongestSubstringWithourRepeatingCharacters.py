@@ -1,28 +1,20 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
 
-        LSSLength = 0
+        seenLettersDict = {}
+        firstIndex = 0
+        maxSSlen = 0
 
-        for i in range(0,len(s)):
-            seenLetters = []
-            currentSSLength = 0
+        for i, num in enumerate(s):
+            if num in seenLettersDict:
+                if seenLettersDict[num] + 1 > firstIndex:
+                    firstIndex = seenLettersDict[num] + 1
+            seenLettersDict[num] = i
 
-            for j in range(i,len(s)):
-                if Solution.containsChar(s[j], seenLetters):
-                    break
-                else:
-                    seenLetters.append(s[j])
-                    currentSSLength += 1
+            currSSLen = i - firstIndex + 1
+            if currSSLen > maxSSlen:
+                maxSSlen = currSSLen
 
-            if currentSSLength > LSSLength:
-                LSSLength = currentSSLength
+        return maxSSlen
 
-        return LSSLength
-
-    def containsChar(c: str, l: list) -> bool:
-        for i in range (0, len(l)):
-            if c == l[i]:
-                return True
-        return False
-
-print(Solution.lengthOfLongestSubstring(Solution, "abcabcbb"))
+print(Solution.lengthOfLongestSubstring(Solution, "ccbbcc"))
