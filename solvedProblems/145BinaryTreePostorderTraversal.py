@@ -12,20 +12,16 @@ class Solution:
             return []
 
         treeList = []
-
         self.helper(self, root, treeList)
-
         return treeList
 
     def helper(self, root, treeList):
 
-        treeList.append(root.val)
-
         if root.left:
             self.helper(self, root.left, treeList)
-
         if root.right:
             self.helper(self, root.right, treeList)
+        treeList.append(root.val)
 
 root = TreeNode(1)
 node2 = TreeNode(2)
