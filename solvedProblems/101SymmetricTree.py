@@ -13,8 +13,10 @@ class Solution:
         leftTreeList = []
         rightTreeList = []
 
-        self.leftHelper(self, root.left, leftTreeList)
-        self.rightHelper(self, root.right, rightTreeList)
+        if root.left:
+            self.leftHelper(self, root.left, leftTreeList)
+        if root.right:
+            self.rightHelper(self, root.right, rightTreeList)
         #print(leftTreeList)
         #print(rightTreeList)
 
